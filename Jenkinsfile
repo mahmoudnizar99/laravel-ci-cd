@@ -1,6 +1,10 @@
 pipeline {
     agent any
-
+    environment {
+        HERD_PHP = '"C:\\Users\\Mahmoud Nizar\\.config\\herd\\bin\\php83\\php.exe"'
+        PATH = "${env.PATH}"
+        CACHE_DRIVER = "file"
+    }
     stages {
 
         stage('Clone Repository') {
@@ -11,7 +15,7 @@ pipeline {
 
         stage('Install PHP Dependencies') {
             steps {
-                bat 'composer install --no-interaction --prefer-dist --no-progress'
+                bat '${HERD_PHP} composer.phar install --no-interaction --prefer-dist --no-progress'
             }
         }
 
@@ -30,16 +34,16 @@ pipeline {
         stage('Prepare Laravel Environment') {
             steps {
                 bat 'if not exist .env copy .env.example .env'
-                bat 'if not exist database\\database.sqlite type nul > database\\database.sqlite'
-                bat 'php artisan key:generate'
+                bat '${HERD_PHP} artisan key:generate'
             }
         }
 
         stage('Clear Laravel Cache') {
             steps {
-                bat 'php artisan config:clear'
-                bat 'php artisan route:clear'
-                bat 'php artisan view:clear'
+                bat '${HERD_PHP} artisan config:clear'
+                bat '${HERD_PHP} artisan cache:clear'
+                bat '${HERD_PHP} artisan route:clear'
+                bat '${HERD_PHP} artisan view:clear'
             }
         }
 
