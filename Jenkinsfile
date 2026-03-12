@@ -40,7 +40,7 @@ pipeline {
 
         stage('Clear Laravel Cache') {
             steps {
-                bat 'touch database/database.sqlite'
+                bat 'type nul > database\database.sqlite'
                 bat 'php artisan migrate --force'
                 bat 'php artisan cache:clear'
                 bat 'php artisan config:clear'
