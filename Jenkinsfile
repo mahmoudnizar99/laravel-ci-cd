@@ -30,6 +30,7 @@ pipeline {
         stage('Prepare Laravel Environment') {
             steps {
                 bat 'if not exist .env copy .env.example .env'
+                bat 'if not exist database\\database.sqlite type nul > database\\database.sqlite'
                 bat 'php artisan key:generate'
             }
         }
