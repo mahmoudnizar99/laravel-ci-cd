@@ -15,7 +15,7 @@ pipeline {
 
         stage('Install PHP Dependencies') {
             steps {
-                bat '${HERD_PHP} composer.phar install --no-interaction --prefer-dist --no-progress'
+                bat 'composer install --no-interaction --prefer-dist --no-progress'
             }
         }
 
