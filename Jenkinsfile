@@ -15,19 +15,9 @@ pipeline {
 
         stage('Install PHP Dependencies') {
             steps {
-                bat 'composer install --no-interaction --prefer-dist --no-progress'
-            }
-        }
-
-        stage('Install Node Dependencies') {
-            steps {
-                bat 'npm install'
-            }
-        }
-
-        stage('Build Frontend') {
-            steps {
-                bat 'npm run build'
+                bat 'composer config --global process-timeout 2000'
+                bat 'composer clear-cache'
+                bat 'composer install --no-interaction --prefer-dist --no-progress -vvv'
             }
         }
 
@@ -40,12 +30,22 @@ pipeline {
 
         stage('Clear Laravel Cache') {
             steps {
-                bat 'type nul > database\database.sqlite'
-                bat 'php artisan migrate --force'
-                bat 'php artisan cache:clear'
                 bat 'php artisan config:clear'
+                bat 'php artisan cache:clear'
                 bat 'php artisan route:clear'
                 bat 'php artisan view:clear'
+            }
+        }
+
+        stage('Install Node Dependencies') {
+            steps {
+                bat 'npm install'
+            }
+        }
+
+        stage('Build Frontend') {
+            steps {
+                bat 'npm run build'
             }
         }
 
