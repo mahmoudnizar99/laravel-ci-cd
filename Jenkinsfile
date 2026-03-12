@@ -34,16 +34,16 @@ pipeline {
         stage('Prepare Laravel Environment') {
             steps {
                 bat 'if not exist .env copy .env.example .env'
-                bat '${HERD_PHP} artisan key:generate'
+                bat 'php artisan key:generate'
             }
         }
 
         stage('Clear Laravel Cache') {
             steps {
-                bat '${HERD_PHP} artisan config:clear'
-                bat '${HERD_PHP} artisan cache:clear'
-                bat '${HERD_PHP} artisan route:clear'
-                bat '${HERD_PHP} artisan view:clear'
+                bat 'php artisan config:clear'
+                bat 'php artisan cache:clear'
+                bat 'php artisan route:clear'
+                bat 'php artisan view:clear'
             }
         }
 
