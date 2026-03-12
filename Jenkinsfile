@@ -23,7 +23,7 @@ pipeline {
 
         stage('Prepare Laravel Environment') {
             steps {
-                bat 'if not exist .env copy .env.example .env'
+                bat 'copy .env.example .env'
                 bat 'php artisan key:generate'
             }
         }
